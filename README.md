@@ -36,30 +36,41 @@ add users in etc/passwd or start programs in etc/rc or etc/inittab.
 - Starting QEMU
 
 To use just do:
- # ./build_me.sh
- # ./start_initrd.sh
+
+ ./build_me.sh
+
+ ./start_initrd.sh
 
 
 - Files in this directory
 
 build_me.sh.....: To build the root fs
+
 README..........: This file
+
 start_ext2.sh...: starting the rootfs on a virtio_blk drive
+
 start_initrd.sh.: starting the rootfs in an initrd
 
 - Special directories
 
 RFS.............: The directory with the skeleton
+
 extra...........: your own files should go there and will be copied
                   to the guest Root file system
+
 modules.........: A directory holding Linux modules for the guest+
+
 config..........: The configuration directory (see here under)
 
 - Configuration in the config directory
 
 disk_size.cfg...: the size of the ext2 partition
+
 files.cfg.......: The list of files to copy on rootfs
+
 modules.cfg.....: The list of modules to copy on rootfs
+
 version.cfg.....: the version of kernel and modules to use
 
 
