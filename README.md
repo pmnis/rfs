@@ -49,7 +49,7 @@ start_initrd.sh.: starting the rootfs in an initrd
 
 - Special directories
 
-RFS.............: The directory with the bare tree
+RFS.............: The directory with the skeleton
 extra...........: your own files should go there and will be copied
                   to the guest Root file system
 modules.........: A directory holding Linux modules for the guest+
@@ -62,9 +62,4 @@ files.cfg.......: The list of files to copy on rootfs
 modules.cfg.....: The list of modules to copy on rootfs
 version.cfg.....: the version of kernel and modules to use
 
-
-- Questions...
-
-contact me at:
-Pierre Morel - morel@de.ibm.com
 
