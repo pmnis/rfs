@@ -121,7 +121,7 @@ native_bb()
 		my_print "Please install"
 		exit 1
 	}
-	rsync -av native_links/ ${TMPDIR}/
+	rsync -a native_links/ ${TMPDIR}/
 	cp ${bb} ${TMPDIR}/bin
 }
 
@@ -164,7 +164,7 @@ do
 	sudo chown -R root. ${TMPDIR}/${dir}
 done
 sudo chown -R 100.100 ${TMPDIR}/home/demo/
-#sudo chmod 600 ${TMPDIR}/etc/ssh/*
+sudo chmod -R 600 ${TMPDIR}/etc/ssh
 [[ -f ${TMPDIR}/etc/shadow ]] && sudo chmod 600 ${TMPDIR}/etc/shadow
 
 # Go on by building the initrd file out of it.
