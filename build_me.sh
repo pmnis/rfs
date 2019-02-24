@@ -112,6 +112,20 @@ copy_rfs()
 	sudo mknod ${TMPDIR}/dev/console c 5 1
 }
 
+# Find and copy busybox for a native setup
+native_bb()
+{
+	bb=$(which busybox)
+	[[ -x ${bb} ]] || {
+		my_print "You need busybox on your system"
+		my_print "Please install"
+		exit 1
+	}
+	rsync -av native_links/ ${TMPDIR}/
+	cp ${bb} ${TMPDIR}/bin
+}
+
+
 ######################################################
 ### MAIN ###
 
@@ -128,17 +142,11 @@ esac
 	my_print "You may want to erase the ${TMPDIR} directory first."
 	exit 1
 }
+
 mkdir -p ${TMPDIR}
 
 
-bb=$(which busybox)
-[[ -x ${bb} ]] || {
-	my_print "You need busybox on your system"
-	my_print "Please install"
-	exit 1
-}
-mkdir ${TMPDIR}/bin
-cp ${bb} ${TMPDIR}/bin
+[[ $BUSYBOX_DIR ]] || native_bb
 
 copy_rfs
 copy_modules
