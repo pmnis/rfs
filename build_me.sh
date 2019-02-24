@@ -109,7 +109,6 @@ copy_rfs()
 	do
 		mkdir -p ${TMPDIR}/${dir}
 	done
-	sudo mknod ${TMPDIR}/dev/console c 5 1
 }
 
 # Find and copy busybox for a native setup
@@ -125,6 +124,18 @@ native_bb()
 	cp ${bb} ${TMPDIR}/bin
 }
 
+cross_bb()
+{
+	my_print "Using busybox out of $BUSYBOX_DIR"
+	[[ -d ${BUSYBOX_DIR}/_install ]] || {
+		my_print "You need busybox sources on your system"
+		my_print "Could not find them in ${BUSYBOX_DIR}"
+		my_print "Please compile and install"
+		exit 1
+	}
+	rsync -a ${BUSYBOX_DIR}/_install/ RFS/
+	mv RFS/linuxrc RFS/init
+}
 
 ######################################################
 ### MAIN ###
@@ -146,7 +157,8 @@ esac
 mkdir -p ${TMPDIR}
 
 
-[[ $BUSYBOX_DIR ]] || native_bb
+[[ -d $BUSYBOX_DIR ]] || native_bb
+[[ -d $BUSYBOX_DIR ]] && cross_bb
 
 copy_rfs
 copy_modules
@@ -158,14 +170,8 @@ copy_files
 # The temporary directory is now filled.
 # setup the rights right
 #
-sudo chown root. ${TMPDIR}/
-for dir in root var etc bin sbin usr lib lib64 mnt home
-do
-	sudo chown -R root. ${TMPDIR}/${dir}
-done
-sudo chown -R 100.100 ${TMPDIR}/home/demo/
-#sudo chmod 600 ${TMPDIR}/etc/ssh/*
-[[ -f ${TMPDIR}/etc/shadow ]] && sudo chmod 600 ${TMPDIR}/etc/shadow
+[[ -f ${TMPDIR}/etc/ssh ]] && chmod -R 600 ${TMPDIR}/etc/ssh
+[[ -f ${TMPDIR}/etc/shadow ]] && chmod 600 ${TMPDIR}/etc/shadow
 
 # Go on by building the initrd file out of it.
 
@@ -178,34 +184,9 @@ done
 my_print "building root file system as " $file
 (
 cd ${TMPDIR}
-sudo find . | sudo cpio --quiet -oH newc | gzip > ../$file
+find . | cpio --quiet -oH newc | gzip > ../$file
 )
 
-
-######################################################
-# build a rootfile system from the temporary directory
-SZ=$(my_cat config/disk_size.cfg)
-MIN=$(du -sm ${TMPDIR} | cut -f1)
-
-if [[ $SZ ]] ; then
-	if (( SZ < MIN )); then
-		error "Disk size error: $SZ lower than expected $MIN"
-	fi
-else
-	SZ=$(( MIN + 4 ))
-fi
-
-rfile=$(printf "rfs_ext2_%02d" $num)
-my_print "building ext2 root file system in ${SZ}M ${rfile} file.\n"
-dd if=/dev/zero of=${rfile} bs=1M count=${SZ} >/dev/null 2>&1
-[[ $? == 1 ]] && error "creating empty disk"
-
-mke2fs -Fq ${rfile}
-mkdir -p TMP
-sudo mount -o loop ${rfile} TMP
-sudo rsync -a ${TMPDIR}/ TMP/
-sudo umount TMP
-rmdir TMP
 
 # if you are here, it better have worked.
 echo "Success."
