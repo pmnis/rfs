@@ -191,6 +191,6 @@ find . | cpio --quiet -oH newc | gzip > ../$file
 
 # if you are here, it better have worked.
 echo "Success."
-echo "Your ${rfile} and ${file} are ready to use"
+echo "Your ${file} file is ready to be use"
 echo "You may now want to erase the ${TMPDIR} directory."
 exit 0
