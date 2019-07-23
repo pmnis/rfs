@@ -30,6 +30,7 @@ my_cat()
 
 TMPDIR="TMP_$$"
 VERSION=$(my_cat config/version.cfg)
+[[ $VERSION ]] || VERSION=$(uname -r)
 FILES=$(my_cat config/files.cfg)
 MODLIST=$(my_cat config/modules.cfg)
 
@@ -130,7 +131,7 @@ cross_bb()
 	[[ -d ${BUSYBOX_DIR}/_install ]] || {
 		my_print "You need busybox sources on your system"
 		my_print "Could not find them in ${BUSYBOX_DIR}"
-		my_print "Please compile and install"
+		my_print "Please compile and run make install"
 		exit 1
 	}
 	rsync -a ${BUSYBOX_DIR}/_install/ RFS/
