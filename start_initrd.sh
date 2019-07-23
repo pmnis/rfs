@@ -14,3 +14,7 @@ qemu-system-x86_64 \
      -initrd ${RFS} \
      -append "console=ttyS0 " \
      -nographic $*
+
+# To add a virtio network
+# -netdev tap,id=mynet0
+# -device virtio-net-pci,netdev=mynet0
