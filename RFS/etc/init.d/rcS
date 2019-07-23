@@ -2,4 +2,5 @@
 
 mount -t proc proc /proc
 mount -t sysfs sys /sys
+mount -t devtmpfs dev /dev
 
