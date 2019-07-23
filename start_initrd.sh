@@ -18,7 +18,9 @@ qemu-system-x86_64 \
 # To add a virtio network
 # -netdev tap,id=mynet0
 # -device virtio-net-pci,netdev=mynet0
+# in the guest modprobe virtio-net
 
 # To add a virtio block device
 # -blockdev driver=file,filename=disk0.raw,node-name=drv0
 # -device virtio-blk,drive=drv0
+# in the guest modprobe virtio-blk
