@@ -80,7 +80,7 @@ copy_modules()
 
 	for m in ${MODLIST}
 	do
-		mm=$(find /lib/modules/${VERSION}/ -name ${m}.ko)
+		mm=$(find /lib/modules/${VERSION}/ -name ${m}.ko*)
 		if [[ ! -f $mm ]]; then
 			my_print "$mm: " "module " $m.ko " not found"
 		else
@@ -92,7 +92,7 @@ copy_modules()
 	done
 	[[ -d ${TMPDIR}/lib/modules/${VERSION} ]] && { (
 	cd ${TMPDIR}/lib/modules/${VERSION};
-	find . -name "*.ko" > modules.order
+	find . -name "*.ko*" > modules.order
 	touch modules.builtin
 	)
 	depmod -a -b ${TMPDIR} ${VERSION}
