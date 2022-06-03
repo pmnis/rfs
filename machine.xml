@@ -1,0 +1,17 @@
+<domain type='kvm'>
+<name>Busybox</name>
+<memory unit='KiB'>1048576</memory>
+<os>
+<type>hvm</type>
+<kernel>/boot/vmlinuz</kernel>
+<initrd>/home/pmorel/VM/rfs00.gz</initrd>
+<cmdline>console=ttyS0</cmdline>
+</os>
+<devices>
+<serial type='pty'>
+<source path='/dev/pts/1'/>
+<target port='0'>
+</target>
+</serial>
+</devices>
+</domain>

@@ -1,0 +1,6 @@
+<disk type='file' device='disk'>
+<driver name='qemu' type='raw'/>
+<source file='/home/pmorel/Dev/rfs/disk01.raw' index='1'/>
+<target dev='vda' bus='virtio'/>
+</disk>
+

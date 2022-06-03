@@ -1,0 +1,7 @@
+<controller type='pci' index='0' model='pcie-root'/>
+<controller type='pci' index='1' model='pcie-root-port'>
+  <model name='pcie-root-port'/>
+  <target chassis='1' port='0x10'/>
+  <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
+</controller>
+
