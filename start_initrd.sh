@@ -9,10 +9,10 @@ shift
 
 qemu-system-x86_64 \
      -machine pc,accel=kvm \
-     -enable-kvm -smp 2 -m 512 \
+     -enable-kvm -smp 4 -m 1G \
      -kernel /boot/vmlinuz-${SUFFIXE} \
      -initrd ${RFS} \
-     -append "console=ttyS0 " \
+     -append "console=ttyS0 numa=fake=4*256M," \
      -nographic $*
 
 # To add a virtio network
@@ -24,3 +24,7 @@ qemu-system-x86_64 \
 # -blockdev driver=file,filename=disk0.raw,node-name=drv0
 # -device virtio-blk,drive=drv0
 # in the guest modprobe virtio-blk
+     -append "console=ttyS0 numa=on numa=noacpi numa=nohmat numa=fake=128M " \
+     -numa node,cpus=0-1,nodeid=0 \
+     -numa node,cpus=2-3,nodeid=1 \
+     -numa node,cpus=4-7,nodeid=2 \

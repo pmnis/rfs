@@ -55,6 +55,10 @@ copy_libs()
 	for f in /lib/ld.so.1 /lib/ld64.so.1; do
 		[[ -e "$f" ]] && cp "$f" ${TMPDIR}/lib/
 	done
+	mkdir -p ${TMPDIR}/lib64/
+	for f in /lib64/ld-linux-x86-64.so.2; do
+		[[ -e "$f" ]] && cp "$f" ${TMPDIR}/lib64/
+	done
 }
 
 # retrieve files from the local file system and copy to target
